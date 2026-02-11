@@ -8,14 +8,34 @@ export default function ProtectedRoute({ children }) {
 
   useEffect(() => {
     let alive = true;
-    supabase.auth.getUser().then(({ data }) => {
+
+    supabase.auth.getSession().then(({ data }) => {
       if (!alive) return;
-      setOk(Boolean(data?.user));
+      setOk(Boolean(data?.session?.user));
     });
-    return () => { alive = false; };
+
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!alive) return;
+      setOk(Boolean(session?.user));
+    });
+
+    return () => {
+      alive = false;
+      sub?.subscription?.unsubscribe?.();
+    };
   }, []);
 
   if (ok === null) return null;
-  if (!ok) return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+
+  if (!ok) {
+    return (
+      <Navigate
+        to="/login"
+        state={{ from: location.pathname }}
+        replace
+      />
+    );
+  }
+
   return children;
 }

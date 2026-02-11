@@ -5,7 +5,9 @@ import { toast } from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const nav = useNavigate();
   const loc = useLocation();
 
@@ -14,11 +16,17 @@ export default function Login() {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const { error } = await supabase.auth.signInWithOtp({ email });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
       if (error) throw error;
-      toast.success("Check your email for the login link.");
-      // após clicar no link do email, o Supabase cria a sessão e você pode voltar ao fluxo normal
+
+      toast.success("Logged in!");
+      nav(from, { replace: true });
     } catch (err) {
       toast.error(err?.message || "Login error");
     } finally {
@@ -40,13 +48,27 @@ export default function Login() {
             placeholder="email@club.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            type="email"
             required
+            autoComplete="email"
           />
+
+          <input
+            className="w-full rounded border px-3 py-2"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            required
+            minLength={6}
+            autoComplete="current-password"
+          />
+
           <button
             disabled={loading}
             className="w-full rounded bg-zinc-900 px-4 py-2 text-white disabled:opacity-50"
           >
-            {loading ? "Sending..." : "Send login link"}
+            {loading ? "Signing in..." : "Login"}
           </button>
         </form>
 
