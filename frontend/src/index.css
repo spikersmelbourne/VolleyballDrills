@@ -1,0 +1,61 @@
+@import "tailwindcss";
+@import "tailwindcss";
+
+:root {
+  --mikasa-blue: #1d4ed8;     /* blue-700 */
+  --mikasa-yellow: #facc15;   /* yellow-400 */
+  --mikasa-cream: #fff7d6;    /* warm bg */
+}
+
+/* página com “frame” + marca d’água */
+body {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+/* wrapper com fundo decorativo */
+.vb-bg {
+  position: relative;
+  background: #ffffff;
+}
+
+/* ribbon topo: Mikasa + toque rainbow */
+.vb-ribbon {
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #1d4ed8 0%,
+    #facc15 22%,
+    #22c55e 42%,
+    #06b6d4 58%,
+    #a855f7 76%,
+    #ef4444 100%
+  );
+  opacity: 0.9;
+}
+
+/* marca d’água super sutil */
+.vb-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image:
+    radial-gradient(circle at 20% 30%, #1d4ed8 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 60%, #facc15 0 2px, transparent 3px),
+    radial-gradient(circle at 40% 80%, #1d4ed8 0 2px, transparent 3px),
+    linear-gradient(90deg, rgba(15,23,42,0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(15,23,42,0.08) 1px, transparent 1px);
+  background-size: 180px 180px, 220px 220px, 260px 260px, 80px 80px, 80px 80px;
+  background-position: 0 0, 60px 40px, 120px 120px, 0 0, 0 0;
+}
+
+/* frame sutil nas laterais */
+.vb-frame {
+  border: 1px solid rgba(148,163,184,0.35);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(2px);
+}

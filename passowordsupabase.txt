@@ -1,0 +1,407 @@
+Thebestplayer2026
+
+🏠 Home ( / )
+
+Filtros (chips)
+	•	Levels
+	•	Fundamentals
+	•	Drill types
+	•	Coach participates
+	•	Good for many players
+
+Lista de drills (cards em grid)
+
+Cada card mostra:
+	•	Levels badges
+	•	Fundamentals badges
+	•	Drill types badges
+	•	Tested badge
+	•	✅ Tested
+	•	⏳ Not tested
+	•	⭐ Average rating (ex: 8.2/10) quando existir
+	•	Comments count (ex: “3 comments”) quando existir
+
+Interações
+	•	Clique no card → abre Drill Details (/drills/:id)
+	•	Único botão no card:
+	•	Open video (abre o link direto)
+
+⸻
+
+📄 Drill Details ( /drills/:id )
+
+Botões
+	•	Open video
+	•	Edit drill → vai para /drills/:id/edit
+
+Informações mostradas
+	•	Link (url)
+	•	Levels
+	•	Fundamentals
+	•	Drill types
+	•	Coach participates
+	•	Good for many players
+	•	Notes (se existir)
+
+Parte social (somente leitura)
+	•	Tested status
+	•	Average rating + quantidade de ratings
+
+Lista de ratings:
+	•	Nome
+	•	Nota
+	•	Data
+
+Lista de comments:
+	•	Nome
+	•	Comentário
+	•	Data
+
+Importante
+	•	NÃO existe campo para comentar aqui
+	•	NÃO existe campo para dar rating aqui
+
+⸻
+
+✏️ Edit Drill ( /drills/:id/edit )
+
+Botões principais
+	•	Save changes
+	•	Delete drill
+
+Campos editáveis do drill
+	•	Link (url)
+	•	Levels
+	•	Fundamentals
+	•	Drill types
+	•	Coach participates
+	•	Good for many players
+	•	Notes (se existir)
+
+⸻
+
+🎯 Painel único de interação
+
+(Tested + Rating + Comment)
+
+Um único box com tudo junto.
+
+Campos:
+	•	Checkbox:
+	•	Tested
+	•	Campo obrigatório:
+	•	Name (REQUIRED)
+	•	Campo opcional:
+	•	Rating (1–10)
+	•	Campo opcional:
+	•	Comment
+
+⸻
+
+🧠 Regra de funcionamento (VERSÃO FINAL)
+
+Regra base
+	•	Se Name estiver vazio → botão não envia nada
+
+⸻
+
+Comment
+
+Pode ser enviado sozinho.
+
+Exemplo válido:
+	•	Name ✔
+	•	Comment ✔
+	•	Tested ❌
+	•	Rating ❌
+
+⸻
+
+Tested + Rating (sempre juntos)
+
+Tested e Rating funcionam como um pacote.
+
+Exemplo válido:
+	•	Name ✔
+	•	Tested ✔
+	•	Rating ✔
+
+⸻
+
+Tested sem Rating
+
+❌ Não pode enviar
+
+⸻
+
+Rating sem Tested
+
+❌ Não pode enviar
+
+⸻
+
+Fluxos permitidos
+
+✔ Só comment
+	•	Name ✔
+	•	Comment ✔
+	•	Tested ❌
+	•	Rating ❌
+
+✔ Tested + Rating
+	•	Name ✔
+	•	Tested ✔
+	•	Rating ✔
+	•	Comment opcional
+
+✔ Tested + Rating + Comment
+	•	Name ✔
+	•	Tested ✔
+	•	Rating ✔
+	•	Comment ✔
+
+⸻
+
+Fluxos bloqueados
+
+❌ Tested marcado sem rating
+	•	Name ✔
+	•	Tested ✔
+	•	Rating ❌
+
+❌ Rating preenchido sem tested
+	•	Name ✔
+	•	Rating ✔
+	•	Tested ❌
+
+❌ Qualquer ação sem nome
+	•	Sempre bloqueado
+
+--------------------------------------------------------------------------------------------
+
+Projeto sem backend:
+Prompt do Projeto: VolleyballDrills sem backend próprio (Front estático + Supabase SQL)
+
+Objetivo
+
+Transformar o projeto VolleyballDrills (Vite + React + Tailwind) para funcionar sem backend Python/FastAPI, mantendo o visual e a estrutura geral, mas:
+	1.	Usar Supabase (Postgres/SQL) como banco (opção B).
+	2.	O site será público para busca e visualização de drills.
+	3.	Somente usuários logados poderão Adicionar e Editar drills (e opcionalmente deletar).
+	4.	Ajustar ordenação e UI conforme especificações abaixo.
+	5.	Deploy gratuito (Cloudflare Pages / Netlify / Vercel), sem hibernação.
+
+⸻
+
+Regras de Ordenação (Atualizadas)
+
+Ordenar os drills sempre nesta prioridade:
+	1.	Drills com rating (ratings_count > 0), ordenados por:
+	•	avg_rating DESC
+	•	depois ratings_count DESC
+	2.	Drills sem rating, mas com comentários (comments_count > 0), ordenados por:
+	•	comments_count DESC
+	3.	O resto (sem rating e sem comentários), ordenados por:
+	•	mais recentes primeiro (ex: created_at DESC)
+
+Importante: “rating primeiro” independe de ter comentários ou não.
+
+⸻
+
+Ajuste dos “símbolos” (UI)
+	•	Manter as palavras (ex: “Tested”, “Not tested”, “comments”, “ratings”)
+	•	Remover apenas os ícones/emoji/imagens, como:
+	•	✅ / ⏳
+	•	💬 / ⭐
+Exemplo desejado:
+	•	Em vez de “✅ Tested” → “Tested”
+	•	Em vez de “💬 3 comments” → “3 comments”
+
+⸻
+
+Mudanças de UI / Estética
+
+Paleta (Mikasa V200)
+	•	Fundo: branco
+	•	Referência de cor delicada inspirada na bola Mikasa V200:
+	•	Azul (acento/links)
+	•	Amarelo (hover/underline/detalhes)
+	•	Estilo minimalista, limpo, sem “cards pesados”.
+
+Header (Home)
+	•	Os botões do topo (“Coach Manual”, “+ Add Drill”) continuam na mesma posição, mas:
+	•	Viram texto simples
+	•	Hover: underline
+	•	Sem fundo/caixa
+	•	Visual semelhante ao menu do site do Melbourne Spikers
+
+Home: comportamento dos cards
+	•	A Home não mostra cards por padrão
+	•	Só mostra resultados (lista/cards) quando o usuário selecionar qualquer filtro
+	•	Ex: clicou em “B1” → aparecem todos drills de B1
+	•	Ex: clicou em “Attack” → aparecem todos de Attack
+	•	Se nenhum filtro estiver ativo, mostrar apenas:
+	•	filtros
+	•	e uma frase tipo “Select a filter to show drills.”
+
+DrillDetails e EditDrill
+	•	Mesmo estilo limpo (fundo branco, sem card grande).
+	•	Layout com “sections” e bordas sutis (border-b), espaçamento e tipografia.
+
+⸻
+
+Autenticação (Login só para Add/Edit)
+
+Implementar login com Supabase Auth (ex: email/password ou magic link).
+
+Regras:
+	•	Buscar e visualizar drills: aberto para qualquer visitante.
+	•	Páginas e ações protegidas:
+	•	/add-drill (criar)
+	•	/edit-drill/:id (editar)
+	•	(opcional) delete drill
+	•	Se visitante tentar acessar:
+	•	redirecionar para /login
+	•	após login, voltar para a tela original.
+
+⸻
+
+Estrutura do Projeto e Arquivos Impactados
+
+Backend (será removido do deploy)
+	•	backend/** (não será publicado)
+	•	requirements.txt (não será usado)
+
+Frontend (será mantido)
+
+Arquivos que serão alterados:
+
+Conexão com banco (sem backend)
+	•	frontend/src/api/drills.js
+	•	trocar fetch(API_URL...) por chamadas Supabase SQL
+	•	manter a mesma interface (list, create, update, delete, comments, ratings)
+
+Auth
+	•	frontend/src/lib/supabaseClient.js (novo)
+	•	frontend/src/pages/Login.jsx (novo)
+	•	frontend/src/routes/ProtectedRoute.jsx (novo ou equivalente)
+	•	frontend/src/App.jsx (rotas protegidas)
+
+UI / comportamento
+	•	frontend/src/pages/Home.jsx
+	•	frontend/src/pages/AddDrill.jsx
+	•	frontend/src/pages/EditDrill.jsx
+	•	frontend/src/pages/DrillDetails.jsx
+	•	frontend/src/index.css
+	•	frontend/tailwind.config.js
+
+⸻
+
+Etapas para executar o plano
+
+Etapa 1 — Criar o projeto no Supabase (SQL)
+	1.	Criar um projeto Supabase.
+	2.	Criar tabela drills com colunas compatíveis com seu modelo atual, incluindo:
+	•	id (uuid ou serial)
+	•	url (text)
+	•	levels (int[])
+	•	fundamentals (text[])
+	•	drill_types (text[])
+	•	coach_participates (boolean)
+	•	good_for_many_players (boolean)
+	•	agregados:
+	•	avg_rating (numeric, nullable)
+	•	ratings_count (int default 0)
+	•	comments_count (int default 0)
+	•	created_at timestamp default now()
+	•	created_by uuid (nullable, referência ao usuário logado)
+	3.	Criar tabelas opcionais:
+	•	drill_comments
+	•	drill_ratings
+(se você realmente quiser comentários e ratings “de verdade”, não só contagem)
+
+⸻
+
+Etapa 2 — Configurar Auth (login)
+	1.	Habilitar Auth no Supabase.
+	2.	Escolher método:
+	•	Magic link (mais simples)
+	•	Email/password (normal)
+	3.	No frontend:
+	•	criar Login.jsx
+	•	criar ProtectedRoute
+	•	proteger rotas /add-drill e /edit-drill/:id
+
+⸻
+
+Etapa 3 — RLS / Policies (segurança + acesso público)
+
+Configurar Row Level Security para:
+
+Acesso público (sem login)
+	•	SELECT na tabela drills liberado para todos (anon)
+
+Criar/Editar (somente logado)
+	•	INSERT em drills permitido apenas para authenticated
+	•	UPDATE em drills permitido apenas para authenticated
+	•	e opcional: somente se created_by = auth.uid()
+
+Comments/Ratings (se existir)
+	•	SELECT público
+	•	INSERT só para logado (ou público se você quiser)
+	•	DELETE/UPDATE restrito
+
+⸻
+
+Etapa 4 — Trocar API do projeto (fetch -> Supabase)
+	1.	Criar src/lib/supabaseClient.js com env vars:
+	•	VITE_SUPABASE_URL
+	•	VITE_SUPABASE_ANON_KEY
+	2.	Reescrever src/api/drills.js para:
+	•	listDrills(params) consultar Supabase e aplicar filtros
+	•	aplicar a ordenação nova (rating → comments → resto)
+	•	createDrill, updateDrill, deleteDrill
+	•	comments/ratings se aplicável
+
+⸻
+
+Etapa 5 — Refatorar UI conforme sua descrição
+
+Home.jsx
+	•	fundo branco
+	•	header com links textuais e underline no hover
+	•	sem resultados por padrão
+	•	resultados aparecem somente quando filtros selecionados
+	•	remover ícones (tick/ampulheta/emoji), manter palavras
+
+DrillDetails/EditDrill/AddDrill
+	•	remover “card pesado”
+	•	layout branco minimalista
+	•	cores Mikasa em detalhes (underline, foco, botões)
+
+⸻
+
+Etapa 6 — Deploy gratuito sem hibernação
+	1.	Subir o frontend em:
+	•	Cloudflare Pages (recomendado)
+	•	ou Netlify/Vercel
+	2.	Configurar env vars no deploy:
+	•	VITE_SUPABASE_URL
+	•	VITE_SUPABASE_ANON_KEY
+	3.	Testar:
+	•	visitante vê e filtra drills normalmente
+	•	visitante não consegue abrir Add/Edit
+	•	login funciona
+	•	usuário logado consegue criar/editar
+
+⸻
+
+Checklist final de sucesso
+	•	Busca pública funcionando
+	•	Filtros funcionando
+	•	Home não mostra resultados até selecionar filtro
+	•	Ordenação correta (rating → comments → resto)
+	•	Ícones removidos, palavras mantidas
+	•	UI branca + detalhes Mikasa (azul/amarelo)
+	•	Add/Edit protegidos por login
+	•	Deploy grátis funcionando sem hibernação
